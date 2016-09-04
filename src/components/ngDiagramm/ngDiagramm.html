@@ -1,0 +1,6 @@
+ngDiagramm
+<br>
+
+<svg width="300" height="300" ng-if="dg.showSvg">
+	<path ng-repeat="item in dg.pathes" d="{{ item.settings }}" fill="{{ item.color }}" ng-click="dg.pathClick($event, item)"></path>
+</svg>

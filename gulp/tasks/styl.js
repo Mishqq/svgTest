@@ -3,6 +3,7 @@
 var gulp = require('gulp'),
 	prefixer = require('gulp-autoprefixer'),
 	sourcemaps = require('gulp-sourcemaps'),
+	concat = require('gulp-concat'),
 	cssmin = require('gulp-minify-css'),
 	browserSync = require("browser-sync"),
 	reload = browserSync.reload,
@@ -12,10 +13,13 @@ var gulp = require('gulp'),
 gulp.task('style:build', function () {
 	gulp.src(config.src.style)
 		.pipe(sourcemaps.init())
-		.pipe(stylus({}))
+		.pipe(stylus({
+			'include css': true
+		}))
+		.pipe(concat('build/css/app.css'))
 		.pipe(prefixer())
 		.pipe(cssmin())
 		.pipe(sourcemaps.write())
-		.pipe(gulp.dest(config.build.css))
+		.pipe(gulp.dest('.'))
 		.pipe(reload({stream: true}));
 });

@@ -1,17 +1,17 @@
-class mainCtrl{
-	constructor($scope){
+(function(){
+	angular.module('app').controller('mainCtrl', mainCtrl);
+
+	function mainCtrl($scope, $http, configFactory){
 		this.$scope = $scope;
-		this.hello = 'Hellow from mainCtrl';
+		this.$http = $http;
+		this.config = configFactory;
 
 		this.init();
 	}
 
-	init(){
-		console.log('---=== init app ===---');
-		console.log('---=== init app ===---');
-	};
-}
-
-mainCtrl.$inject = ['$scope'];
-
-export {mainCtrl}
+	mainCtrl.prototype.init = function(){
+		this.$http.get(this.config.fixtures + 'countries.json').then((resp)=>{
+			this.dataForDiagramm = resp.data;
+		});
+	}
+})();

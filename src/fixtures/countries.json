@@ -1,0 +1,11 @@
+[
+	{
+		"id": 1,
+		"name": "Russia",
+		"data": {
+			"used": 75,
+			"unused": 22,
+			"other": 3
+		}
+	}
+]

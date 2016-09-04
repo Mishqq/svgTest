@@ -10,14 +10,14 @@ module.exports = {
   src: {
     html: './src/*.html',
     js: ['./src/*.js', 'src/**/*.js'],
-    style: './src/style/main.styl',
+    style: ['./src/*.styl', 'src/**/*.styl'],
     img: './src/img/**/*.*'
   },
   watch: {
-    html: './src/**/*.html',
-    js: './src/**/*.js',
-    style: './src/**/*.styl',
-    img: './src/img/**/*.*'
+    html: ['./src/**/*.html'],
+    js: ['./src/*.js', 'src/**/*.js'],
+    style: ['./src/**/*.styl'],
+    img: ['./src/img/**/*.*']
   },
   clean: './build',
   serverSettings: {

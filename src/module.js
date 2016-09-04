@@ -1,3 +1,3 @@
-import {mainCtrl} from './controllers/mainCtrl';
-
-angular.module('app').controller('mainCtrl', mainCtrl);
+//let mainCtrl = require('./controllers/mainCtrl');
+//
+//angular.module('app').controller('mainCtrl', mainCtrl);
