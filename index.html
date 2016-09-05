@@ -6,12 +6,13 @@
 	<script src="build/js/vendor.js"></script>
 	<script src="build/js/app.js"></script>
 	<link rel="stylesheet" href="build/css/app.css">
+	<link rel="stylesheet" href="build/css/vendor.css">
 </head>
-<body ng-cloak ng-controller="mainCtrl as mainCtrl">
+<body ng-cloak
+      ng-controller="mainCtrl as mainCtrl"
+      class="container-fluid">
 
-	<div ng-bind="mainCtrl.hello"></div>
-
-	<ng-diagramm data="mainCtrl.dataForDiagramm"></ng-diagramm>
+	<div ui-view="main"></div>
 
 </body>
 </html>

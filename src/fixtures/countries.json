@@ -25,5 +25,86 @@
 				}
 			}
 		}
+	},
+	{
+		"id": 2,
+		"name": "Holland",
+		"data": {
+			"used": {
+				"value":21,
+				"text": {
+					"attr": "%",
+					"text": "Используемых с/х земель"
+				}
+			},
+			"unused": {
+				"value":60,
+				"text": {
+					"attr": "%",
+					"text": "Неиспользуемых с/х земель"
+				}
+			},
+			"other": {
+				"value":19,
+				"text": {
+					"attr": "%",
+					"text": ""
+				}
+			}
+		}
+	},
+	{
+		"id": 3,
+		"name": "France",
+		"data": {
+			"used": {
+				"value":43,
+				"text": {
+					"attr": "%",
+					"text": "Используемых с/х земель"
+				}
+			},
+			"unused": {
+				"value":41,
+				"text": {
+					"attr": "%",
+					"text": "Неиспользуемых с/х земель"
+				}
+			},
+			"other": {
+				"value":16,
+				"text": {
+					"attr": "%",
+					"text": ""
+				}
+			}
+		}
+	},
+	{
+		"id": 4,
+		"name": "Italy",
+		"data": {
+			"used": {
+				"value": 29,
+				"text": {
+					"attr": "%",
+					"text": "Используемых с/х земель"
+				}
+			},
+			"unused": {
+				"value":51,
+				"text": {
+					"attr": "%",
+					"text": "Неиспользуемых с/х земель"
+				}
+			},
+			"other": {
+				"value":20,
+				"text": {
+					"attr": "%",
+					"text": ""
+				}
+			}
+		}
 	}
 ]

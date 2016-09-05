@@ -1,12 +1,15 @@
 (function(){
 	angular.module('app').factory('ngDgPresetsFactory', function(){
+		let width = 500;
+		let height = 500;
+
 		let presets = {
 			pathColors: ['#f58a41', '#f0d367', '#e64d1b'],
-			svgWidth: 500,
-			svgHeight: 500,
+			svgWidth: width,
+			svgHeight: height,
 			svgStyles: {
-				'width': 500 +'px',
-				'height': 500 + 'px',
+				'width': width,
+				'height': height,
 				'fill': 'blue'
 			},
 			radius: 150

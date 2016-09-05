@@ -12,9 +12,10 @@ ngDiagramm
 
 	<g ng-repeat="item in dg.pathes" id="{{ item.id }}">
 		<path ng-d="{{ item.settings }}" ng-fill="{{ item.color }}" ng-click="dg.pathClick($event, item)"></path>
-		<text x="10" y="20" style="fill:red;">Several lines:
-			<tspan x="10" y="45">First line.</tspan>
-			<tspan x="10" y="70">Second line.</tspan>
+		<text ng-x="{{ item.textPosition.x }}" ng-y="{{ item.textPosition.y }}" style="fill:white;">
+			<tspan ng-x="{{ item.textPosition.x  }}" ng-y="{{ item.textPosition.y }}" ng-bind="item.value"></tspan>
+			<tspan ng-x="{{ item.textPosition.x + 20 }}" ng-y="{{ item.textPosition.y }}" ng-bind="item.text.attr"></tspan>
+			<!--<tspan ng-x="{{ item.textPosition.x  }}" ng-y="{{ item.textPosition.y + 20 }}" ng-bind="item.text.text"></tspan>-->
 		</text>
 	</g>
 </svg>

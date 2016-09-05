@@ -11,7 +11,16 @@
 
 	mainCtrl.prototype.init = function(){
 		this.$http.get(this.config.fixtures + 'countries.json').then((resp)=>{
-			this.dataForDiagramm = resp.data;
+			this.countries = resp.data;
+			this.dataForDiagramm = this.countries[0];
 		});
-	}
+	};
+
+	mainCtrl.prototype.setCountry = function(e, country){
+		e.preventDefault();
+
+		console.log('---ΞΞΞΞ- country -ΞΞΞΞ---', country);
+
+		this.dataForDiagramm = country;
+	};
 })();
