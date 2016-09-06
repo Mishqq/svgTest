@@ -15,19 +15,22 @@
 			controller: ngDiagrammCtrl,
 			controllerAs: 'dg',
 			bindToController: {
-				settings: '=?',
 				data: '=?',
 				styles: '=?',
-				pathClick: '=?',
-				ctx: '=?'
+				width: '@?',
+				height: '@?',
+				radius: '@?',
+				stepRadius: '@?',
+				pathClickCb: '=?',
+				ctx: '=?',
+				name: '@?'
 			}
 		};
 	});
 
-	function ngDiagrammCtrl($scope, $element, $compile, ngDgPresetsFactory){
+	function ngDiagrammCtrl($scope, ngDgPresetsFactory){
 		this.$scope = $scope;
-		this.$element = $element;
-		this.$compile = $compile;
+		if(!this.pathClick) this.pathClick = ()=>{console.log('Коллбек по клику не задан')};
 		/**
 		 * Дефолтные настройки для директивки
 		 */
@@ -51,10 +54,11 @@
 		this.circles = [];
 
 		let config = {
-			width: this.prs.svgWidth,
-			height: this.prs.svgHeight,
-			radius: this.prs.radius,
-			center: {x: this.prs.svgWidth/2, y: this.prs.svgHeight/2}
+			width: +this.width || this.prs.svgWidth,
+			height: +this.height || this.prs.svgHeight,
+			radius: +this.radius || this.prs.radius,
+			sRadius: +this.stepRadius || this.prs.sRadius,
+			center: {x: (+this.width || this.prs.svgWidth)/2, y: (+this.height || this.prs.svgHeight)/2}
 		};
 
 		this.$scope.$watch(()=>{return this.data}, (data)=>{
@@ -62,7 +66,6 @@
 				//TODO: Написать проверку на сумму процентов
 
 				if(this.pathes && this.pathes.length) this.pathes.length = 0;
-				config.radius = this.prs.radius;
 
 				if(!this.circles.length) this.createCircles(config);
 
@@ -84,18 +87,18 @@
 					for(let j=0; j<arr.length; j+=1){
 						if( arr[i].value < arr[j].value) priority+=1;
 					}
-					anglesArr.push({a1: c*3.6, a2: (c+arr[i].value)*3.6, text:arr[i].text, value: arr[i].value, cutRadius: priority}); // Переводим градусы в градиенты
+					anglesArr.push({a1: c*3.6, a2: (c+arr[i].value)*3.6, text:arr[i].text, value: arr[i].value, sRadius: priority}); // Переводим градусы в градиенты
 					c += arr[i].value;
 				}
 
 				for(let i=0; i<anglesArr.length; i+=1){
 					let coords = {x1: '', y1: '', x2: '', y2: ''};
 
-					let arr = this.calculateAbsCoord(anglesArr[i].a1, config.center, config.radius-anglesArr[i].cutRadius*20);
+					let arr = this.calculateAbsCoord(anglesArr[i].a1, config.center, config.radius-anglesArr[i].sRadius*config.sRadius);
 					coords.x1 = arr[0];
 					coords.y1 = arr[1];
 
-					arr = this.calculateAbsCoord(anglesArr[i].a2, config.center, config.radius-anglesArr[i].cutRadius*20);
+					arr = this.calculateAbsCoord(anglesArr[i].a2, config.center, config.radius-anglesArr[i].sRadius*config.sRadius);
 					coords.x2 = arr[0];
 					coords.y2 = arr[1];
 
@@ -106,15 +109,15 @@
 					/**
 					 * Свойство, которое кормим на вьюху для отрисовки сектора
 					 */
-					let textCrd = this.calculateAbsCoord( (anglesArr[i].a1+anglesArr[i].a2)/2, config.center, (config.radius-i*20)/2);
+					let textCrd = this.calculateAbsCoord( (anglesArr[i].a1+anglesArr[i].a2)/2, config.center, (config.radius-i*config.sRadius)/2);
 
 					let template = {
 						id: 'g_' + (i+1),
-						color: this.prs.pathColors[anglesArr[i].cutRadius],
+						color: this.prs.pathColors[anglesArr[i].sRadius],
 						value: anglesArr[i].value,
 						text: anglesArr[i].text,
-						radius: config.radius-anglesArr[i].cutRadius*20,
-						showTooltip: (anglesArr[i].a2 - anglesArr[i].a1) > 15,
+						radius: config.radius-anglesArr[i].sRadius*config.sRadius,
+						showTooltip: false,
 						angle: {
 							start: anglesArr[i].a1,
 							end: anglesArr[i].a2
@@ -168,7 +171,7 @@
 	 * Создаем массив пунктирных колец
 	 */
 	ngDiagrammCtrl.prototype.createCircles = function(config){
-		for(let i=30; i<config.width; i+=30){
+		for(let i=config.sRadius; i<config.width; i+=config.sRadius){
 			this.circles.push({
 				center: {
 					x: config.width/2,
@@ -186,6 +189,11 @@
 		let _self = this;
 		let currentAngle = path.angle.start;
 		let timeStep = this.prs.animateTime / ((path.angle.end - path.angle.start) / this.prs.animateStep);
+
+		setTimeout(()=>{
+			path.showTooltip = (path.angle.end - path.angle.start) > 15;
+			//_self.$scope.$digest();
+		}, 500);
 
 		var timeout = setTimeout(function f(){
 			if(currentAngle >= path.angle.end){
@@ -230,6 +238,6 @@
 	 */
 	ngDiagrammCtrl.prototype.pathClick = function(e, item){
 		e.preventDefault();
-		console.log('---=== item ===---', item);
+		this.pathClickCb.call(this.ctx, item);
 	}
 })();

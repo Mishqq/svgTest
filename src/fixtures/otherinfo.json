@@ -1,0 +1,110 @@
+[
+	{
+		"id": 3,
+		"name": "Пункт 1",
+		"data": {
+			"used": {
+				"value":43,
+				"text": {
+					"attr": "%",
+					"text": "Средне"
+				}
+			},
+			"unused": {
+				"value":41,
+				"text": {
+					"attr": "%",
+					"text": "Нормально"
+				}
+			},
+			"other": {
+				"value":16,
+				"text": {
+					"attr": "%",
+					"text": "Пойдёт"
+				}
+			}
+		}
+	},
+	{
+		"id": 1,
+		"name": "Пункт 2",
+		"data": {
+			"unused": {
+				"value":22,
+				"text": {
+					"attr": "%",
+					"text": "Мало"
+				}
+			},
+			"other": {
+				"value":3,
+				"text": {
+					"attr": "%",
+					"text": "Ничтожно мало"
+				}
+			},
+			"used": {
+				"value":75,
+				"text": {
+					"attr": "%",
+					"text": "Очень много"
+				}
+			}
+		}
+	},
+	{
+		"id": 2,
+		"name": "Пункт 3",
+		"data": {
+			"used": {
+				"value":21,
+				"text": {
+					"attr": "%",
+					"text": "меньше"
+				}
+			},
+			"unused": {
+				"value":60,
+				"text": {
+					"attr": "%",
+					"text": "много"
+				}
+			},
+			"other": {
+				"value":19,
+				"text": {
+					"attr": "%",
+					"text": "мало"
+				}
+			}
+		}
+	},
+	{
+		"id": 4,
+		"name": "Пункт 4",
+		"data": {
+			"used": {
+				"value": 29,
+				"text": {
+					"attr": "%",
+					"text": "Мало"
+				}
+			},
+			"unused": {
+				"value":51,
+				"text": {
+					"attr": "%",
+					"text": "Средне"
+				}
+			},
+			"other": {
+				"value":20,
+				"text": {
+					"attr": "%",
+					"text": "Мало"
+				}
+			}
+		}
+	}
+]

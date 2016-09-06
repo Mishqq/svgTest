@@ -12,9 +12,10 @@
 				'height': height,
 				'fill': 'blue'
 			},
-			radius: 150,
+			radius: 155,
 			animateTime: 500,
-			animateStep: 1
+			animateStep: 1,
+			sRadius: 30
 		};
 
 		return {
@@ -24,7 +25,8 @@
 			svgStyles: presets.svgStyles,
 			radius: presets.radius,
 			animateTime: presets.animateTime,
-			animateStep: presets.animateStep
+			animateStep: presets.animateStep,
+			sRadius: presets.sRadius
 		}
 	})
 })();

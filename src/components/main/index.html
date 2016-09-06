@@ -1,11 +1,29 @@
 <div class="row">
-	<div class="md-col12">
-		<ul>
-			<li ng-repeat="item in mainCtrl.countries">
-				<span ng-bind="item.name" ng-click="mainCtrl.setCountry($event, item)"></span>
+	<div class="col-md-6">
+		<ul class="top-menu">
+			<li ng-repeat="(key, item) in mainCtrl.countries" class="top-menu__item">
+				<span ng-bind="item.name" ng-click="mainCtrl.setCountry($event, key)"></span>
 			</li>
 		</ul>
 
-		<ng-diagramm data="mainCtrl.dataForDiagramm"></ng-diagramm>
+		<ng-diagramm data="mainCtrl.countries[ mainCtrl.cNum ]"
+					 path-click-cb="mainCtrl.callbackClick"
+					 ctx="mainCtrl" name="dg1"></ng-diagramm>
+	</div>
+	<div class="col-md-6">
+		<ul class="top-menu">
+			<li ng-repeat="(key, item) in mainCtrl.info2" class="top-menu__item">
+				<span ng-bind="item.name" ng-click="mainCtrl.setInfo2Item($event, key)"></span>
+			</li>
+		</ul>
+
+		<ng-diagramm data="mainCtrl.info2[ mainCtrl.iNum ]"
+					 path-click-cb="mainCtrl.callbackClick"
+					 width="300"
+					 height="300"
+					 radius="110"
+					 step-radius="15"
+					 ctx="mainCtrl"
+					 name="dg2"></ng-diagramm>
 	</div>
 </div>
