@@ -3,13 +3,6 @@
 		"id": 1,
 		"name": "Russia",
 		"data": {
-			"used": {
-				"value":75,
-				"text": {
-					"attr": "%",
-					"text": "Используемых с/х земель"
-				}
-			},
 			"unused": {
 				"value":22,
 				"text": {
@@ -22,6 +15,13 @@
 				"text": {
 					"attr": "%",
 					"text": ""
+				}
+			},
+			"used": {
+				"value":75,
+				"text": {
+					"attr": "%",
+					"text": "Используемых с/х земель"
 				}
 			}
 		}

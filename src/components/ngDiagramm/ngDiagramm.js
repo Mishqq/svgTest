@@ -33,8 +33,6 @@
 		 */
 		this.prs = ngDgPresetsFactory;
 
-		this.showSvg = false;
-
 		this.init();
 	}
 
@@ -55,15 +53,9 @@
 		let config = {
 			width: this.prs.svgWidth,
 			height: this.prs.svgHeight,
-			radius: this.prs.radius
-		}
-
-		/**
-		 * Хранилище координат для анимации
-		 */
-		this.coordAnimStock = {};
-
-		this.templateStock = {};
+			radius: this.prs.radius,
+			center: {x: this.prs.svgWidth/2, y: this.prs.svgHeight/2}
+		};
 
 		this.$scope.$watch(()=>{return this.data}, (data)=>{
 			if(data){
@@ -88,23 +80,22 @@
 				 * a1 - начало сектора, а2 = конец сектора
 				 */
 				for(let c=0, i=0; i<arr.length; i+=1){
-					anglesArr.push({a1: c*3.6, a2: (c+arr[i].value)*3.6, text:arr[i].text, value: arr[i].value}); // Переводим градусы в градиенты
+					let priority = 0;
+					for(let j=0; j<arr.length; j+=1){
+						if( arr[i].value < arr[j].value) priority+=1;
+					}
+					anglesArr.push({a1: c*3.6, a2: (c+arr[i].value)*3.6, text:arr[i].text, value: arr[i].value, cutRadius: priority}); // Переводим градусы в градиенты
 					c += arr[i].value;
 				}
-
-				/**
-				 * Координаты центра диаграммы
-				 */
-				let center = {x: config.width/2, y: config.height/2};
 
 				for(let i=0; i<anglesArr.length; i+=1){
 					let coords = {x1: '', y1: '', x2: '', y2: ''};
 
-					let arr = this.calculateAbsCoord(anglesArr[i].a1, center, config.radius);
+					let arr = this.calculateAbsCoord(anglesArr[i].a1, config.center, config.radius-anglesArr[i].cutRadius*20);
 					coords.x1 = arr[0];
 					coords.y1 = arr[1];
 
-					arr = this.calculateAbsCoord(anglesArr[i].a2, center, config.radius);
+					arr = this.calculateAbsCoord(anglesArr[i].a2, config.center, config.radius-anglesArr[i].cutRadius*20);
 					coords.x2 = arr[0];
 					coords.y2 = arr[1];
 
@@ -112,61 +103,39 @@
 						coords[key] = Math.round(coords[key]);
 					}
 
-					this.coordAnimStock['cAnim_'+i] = {
-						startX: coords.x1,
-						startY: coords.y1,
-						currentX: coords.x1,
-						currentY: coords.y1,
-						endX: coords.x2,
-						endY: coords.y2
-					}
-
-					/**
-					 * Смотрим, какую часть дуги отрисовывать. Если дуга меньше 180 градусов - ставим флаг на отрисовку меньшей стороны
-					 */
-					let largeArcFlag = (anglesArr[i].a2 - anglesArr[i].a1 > 180) ? 1 : 0;
-
 					/**
 					 * Свойство, которое кормим на вьюху для отрисовки сектора
 					 */
-					let params = 'M '+center.x+','+center.y+' L '+coords.x1+','+coords.y1+' A'+config.radius+','+config.radius+' 0 '+largeArcFlag+', 1 '+coords.x2+','+coords.y2+'';
-
-					let textCoord = this.calculateAbsCoord( (anglesArr[i].a1+anglesArr[i].a2)/2, center, config.radius/2)
+					let textCrd = this.calculateAbsCoord( (anglesArr[i].a1+anglesArr[i].a2)/2, config.center, (config.radius-i*20)/2);
 
 					let template = {
 						id: 'g_' + (i+1),
-						settings: params,
-						color: this.prs.pathColors[i],
+						color: this.prs.pathColors[anglesArr[i].cutRadius],
 						value: anglesArr[i].value,
 						text: anglesArr[i].text,
+						radius: config.radius-anglesArr[i].cutRadius*20,
+						showTooltip: (anglesArr[i].a2 - anglesArr[i].a1) > 15,
+						angle: {
+							start: anglesArr[i].a1,
+							end: anglesArr[i].a2
+						},
+						startPos: {
+							x: coords.x1,
+							y: coords.y1
+						},
+						endPos: {
+							x: coords.x2,
+							y: coords.y2
+						},
 						textPosition: {
-							x: textCoord[0],
-							y: textCoord[1]
+							x: textCrd[0],
+							y: textCrd[1]
 						}
-					}
+					};
 
-					this.templateStock['path'+i] = {
-						id: 'g_' + (i+1),
-						settings: params,
-						color: this.prs.pathColors[i],
-						value: anglesArr[i].value,
-						text: anglesArr[i].text,
-						textPosition: {
-							x: textCoord[0],
-							y: textCoord[1]
-						}
-					}
-					
 					this.pathes.push(template);
 
-					/**
-					 * Для каждого следующего сектора режем радиус
-					 */
-					config.radius = config.radius-20;
-
-					this.pathAnimation();
-
-					this.showSvg = true;
+					this.pathAnimation(this.pathes[i], config);
 				}
 			}
 		});
@@ -180,17 +149,17 @@
 	ngDiagrammCtrl.prototype.calculateAbsCoord = function(angle, center, radius){
 		let arr = [];
 		if(angle >= 0 && angle < 90){
-			arr[0] = center.x + Math.abs(radius*+Math.sin(angle*Math.PI/180).toPrecision(3));
-			arr[1] = center.y - Math.abs(radius*+Math.cos(angle*Math.PI/180).toPrecision(3));
+			arr[0] = center.x + Math.abs(radius*+Math.sin(angle*Math.PI/180).toPrecision(10));
+			arr[1] = center.y - Math.abs(radius*+Math.cos(angle*Math.PI/180).toPrecision(10));
 		} else if(angle >= 90 && angle < 180){
-			arr[0] = center.x + Math.abs(radius*+Math.sin(angle*Math.PI/180).toPrecision(3));
-			arr[1] = center.y + Math.abs(radius*+Math.cos(angle*Math.PI/180).toPrecision(3));
+			arr[0] = center.x + Math.abs(radius*+Math.sin(angle*Math.PI/180).toPrecision(10));
+			arr[1] = center.y + Math.abs(radius*+Math.cos(angle*Math.PI/180).toPrecision(10));
 		} else if(angle >= 180 && angle < 270){
-			arr[0] = center.x - Math.abs(radius*+Math.sin(angle*Math.PI/180).toPrecision(3));
-			arr[1] = center.y + Math.abs(radius*+Math.cos(angle*Math.PI/180).toPrecision(3));
+			arr[0] = center.x - Math.abs(radius*+Math.sin(angle*Math.PI/180).toPrecision(10));
+			arr[1] = center.y + Math.abs(radius*+Math.cos(angle*Math.PI/180).toPrecision(10));
 		} else if(angle >= 270 && angle <= 360){
-			arr[0] = center.x - Math.abs(radius*+Math.sin(angle*Math.PI/180).toPrecision(3));
-			arr[1] = center.y - Math.abs(radius*+Math.cos(angle*Math.PI/180).toPrecision(3));
+			arr[0] = center.x - Math.abs(radius*+Math.sin(angle*Math.PI/180).toPrecision(10));
+			arr[1] = center.y - Math.abs(radius*+Math.cos(angle*Math.PI/180).toPrecision(10));
 		}
 		return arr;
 	};
@@ -213,9 +182,48 @@
 	/**
 	 * Функция анимации
 	 */
-	ngDiagrammCtrl.prototype.pathAnimation = function(){
+	ngDiagrammCtrl.prototype.pathAnimation = function(path, config){
+		let _self = this;
+		let currentAngle = path.angle.start;
+		let timeStep = this.prs.animateTime / ((path.angle.end - path.angle.start) / this.prs.animateStep);
 
-	}
+		var timeout = setTimeout(function f(){
+			if(currentAngle >= path.angle.end){
+				clearTimeout(timeout);
+				return false;
+			}
+
+			/**
+			 * Смещаем сектор на заданый шаг и проверяем, чтобы угол не превышал значение угла правого края сектора
+			 */
+			currentAngle +=_self.prs.animateStep;
+			if(currentAngle > path.angle.end) currentAngle = path.angle.end;
+
+			/**
+			 * Смотрим, какую часть дуги отрисовывать. Если дуга меньше 180 градусов - ставим флаг на отрисовку меньшей стороны
+			 */
+			path.flag = (currentAngle-path.angle.start <= 180) ? 0 : 1;
+
+			/**
+			 * Текущая координата смещения дуги
+			 */
+			let currentCoords = _self.calculateAbsCoord(currentAngle, config.center, path.radius);
+			path.settings = 'M '+config.center.x+','+config.center.y+' L ' +
+					''+path.startPos.x+','+path.startPos.y+' A' +
+					''+path.radius+','+path.radius+' 0 ' +
+					''+path.flag+', 1 '+currentCoords[0]+','+currentCoords[1]+'';
+
+			/**
+			 * Рекурсим таймаут
+			 */
+			timeout = setTimeout(f, timeStep);
+
+			/**
+			 * Обновляем вьюху
+			 */
+			_self.$scope.$digest();
+		}, timeStep);
+	};
 
 	/**
 	 * Коллбек клика

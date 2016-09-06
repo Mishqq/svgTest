@@ -18,6 +18,7 @@ gulp.task('build', [
 	'html:build',
 	'js:vendor',
 	'js:build',
+	'style:vendor',
 	'style:build',
 	'image:build'
 ]);

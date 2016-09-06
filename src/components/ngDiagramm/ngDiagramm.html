@@ -1,21 +1,26 @@
 ngDiagramm
 <br>
-<svg ng-if="dg.showSvg" ng-style="dg.prs.svgStyles">
-	<circle ng-repeat="item in dg.circles"
-			ng-r="{{ item.radius }}"
-			ng-cx="{{ item.center.x }}"
-			ng-cy="{{ item.center.y }}"
-			fill="transparent"
-			stroke="white"
-			stroke-width="1"
-			stroke-dasharray="5px 15px"/>
+<div class="svg">
+	<svg ng-style="dg.prs.svgStyles">
+		<circle ng-repeat="item in dg.circles"
+				ng-r="{{ item.radius }}"
+				ng-cx="{{ item.center.x }}"
+				ng-cy="{{ item.center.y }}"
+				fill="transparent"
+				stroke="white"
+				stroke-width="1"
+				stroke-dasharray="5px 15px"/>
 
-	<g ng-repeat="item in dg.pathes" id="{{ item.id }}">
-		<path ng-d="{{ item.settings }}" ng-fill="{{ item.color }}" ng-click="dg.pathClick($event, item)"></path>
-		<text ng-x="{{ item.textPosition.x }}" ng-y="{{ item.textPosition.y }}" style="fill:white;">
-			<tspan ng-x="{{ item.textPosition.x  }}" ng-y="{{ item.textPosition.y }}" ng-bind="item.value"></tspan>
-			<tspan ng-x="{{ item.textPosition.x + 20 }}" ng-y="{{ item.textPosition.y }}" ng-bind="item.text.attr"></tspan>
-			<!--<tspan ng-x="{{ item.textPosition.x  }}" ng-y="{{ item.textPosition.y + 20 }}" ng-bind="item.text.text"></tspan>-->
-		</text>
-	</g>
-</svg>
+		<g ng-repeat="item in dg.pathes" id="{{ item.id }}">
+			<path ng-d="{{ item.settings }}" ng-fill="{{ item.color }}" ng-click="dg.pathClick($event, item)"></path>
+		</g>
+	</svg>
+	<ul class="svg__label-list">
+		<li class="svg__label-list-item" ng-repeat="item in dg.pathes" ng-style="{'top': {{item.textPosition.y - 35}} + 'px', 'left': {{item.textPosition.x - 50}} + 'px' }">
+			<div class="label" ng-class="{'label_show' : item.showTooltip}" ng-click="dg.pathClick($event, item)">
+				<div class="label__val"><strong>{{item.value}}</strong>{{item.text.attr}}</div>
+				<div class="label__text">{{item.text.text}}</div>
+			</div>
+		</li>
+	</ul>
+</div>

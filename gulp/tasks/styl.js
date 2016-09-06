@@ -10,6 +10,14 @@ var gulp = require('gulp'),
 	stylus = require('gulp-stylus'),
 	config = require('../config');
 
+gulp.task('style:vendor', () => {
+	gulp.src([
+		'node_modules/bootstrap/dist/css/bootstrap.min.css'
+	])
+		.pipe(concat('build/css/vendor.css'))
+		.pipe(gulp.dest('.'))
+});
+
 gulp.task('style:build', function () {
 	gulp.src(config.src.style)
 		.pipe(sourcemaps.init())
