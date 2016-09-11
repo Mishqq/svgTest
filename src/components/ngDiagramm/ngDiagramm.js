@@ -37,6 +37,10 @@
 		this.prs = ngDgPresetsFactory;
 
 		this.init();
+
+		setTimeout(()=>{
+			this.paramWatcher();
+		}, 1500);
 	}
 
 	/**
@@ -239,5 +243,34 @@
 	ngDiagrammCtrl.prototype.pathClick = function(e, item){
 		e.preventDefault();
 		this.pathClickCb.call(this.ctx, item);
-	}
+	};
+
+	ngDiagrammCtrl.prototype.paramWatcher = function(){
+		let defend = false;
+		let defTime = 1000;
+
+		this.$scope.$watch(()=>{return this.width}, (width)=>{
+			defend = false;
+			setTimeout(()=>{defend = true; this.$scope.$digest();}, defTime);
+		});
+
+		this.$scope.$watch(()=>{return this.height}, (height)=>{
+			defend = false;
+			setTimeout(()=>{defend = true; this.$scope.$digest();}, defTime);
+		});
+
+		this.$scope.$watch(()=>{return this.radius}, (radius)=>{
+			defend = false;
+			setTimeout(()=>{defend = true; this.$scope.$digest();}, defTime);
+		});
+
+		this.$scope.$watch(()=>{return this.stepRadius}, (stepRadius)=>{
+			defend = false;
+			setTimeout(()=>{defend = true; this.$scope.$digest();}, defTime);
+		});
+
+		this.$scope.$watch(()=>{return defend}, (def)=>{
+			if(def) this.init();
+		});
+	};
 })();

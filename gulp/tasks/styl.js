@@ -12,7 +12,8 @@ var gulp = require('gulp'),
 
 gulp.task('style:vendor', () => {
 	gulp.src([
-		'node_modules/bootstrap/dist/css/bootstrap.min.css'
+		'node_modules/bootstrap/dist/css/bootstrap.min.css',
+		'node_modules/angular-material/angular-material.min.css'
 	])
 		.pipe(concat('build/css/vendor.css'))
 		.pipe(gulp.dest('.'))

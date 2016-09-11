@@ -6,6 +6,13 @@
 		this.$http = $http;
 		this.config = configFactory;
 
+		this.dgConfig = {
+			width: 300,
+			height: 300,
+			radius: 110,
+			stepRadius: 15
+		};
+
 		this.init();
 	}
 

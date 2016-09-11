@@ -19,11 +19,46 @@
 
 		<ng-diagramm data="mainCtrl.info2[ mainCtrl.iNum ]"
 					 path-click-cb="mainCtrl.callbackClick"
-					 width="300"
-					 height="300"
-					 radius="110"
-					 step-radius="15"
+					 width="{{ mainCtrl.dgConfig.width }}"
+					 height="{{ mainCtrl.dgConfig.height }}"
+					 radius="{{ mainCtrl.dgConfig.radius }}"
+					 step-radius="{{ mainCtrl.dgConfig.stepRadius }}"
 					 ctx="mainCtrl"
 					 name="dg2"></ng-diagramm>
+
+		<ul class="edit-list">
+			<li class="edit-list__item">
+				<div class="edit-list__data">
+					<span>150</span>
+					<span>{{ mainCtrl.dgConfig.width }}</span>
+					<span>500</span>
+				</div>
+				<md-slider ng-model="mainCtrl.dgConfig.width" aria-label="width" min="150" max="500"></md-slider>
+			</li>
+			<li class="edit-list__item">
+				<div class="edit-list__data">
+					<span>150</span>
+					<span>{{ mainCtrl.dgConfig.height }}</span>
+					<span>500</span>
+				</div>
+				<md-slider ng-model="mainCtrl.dgConfig.height" aria-label="height" min="150" max="500"></md-slider>
+			</li>
+			<li class="edit-list__item">
+				<div class="edit-list__data">
+					<span>50</span>
+					<span>{{ mainCtrl.dgConfig.radius }}</span>
+					<span>200</span>
+				</div>
+				<md-slider ng-model="mainCtrl.dgConfig.radius" aria-label="radius" min="50" max="200"></md-slider>
+			</li>
+			<li class="edit-list__item">
+				<div class="edit-list__data">
+					<span>15</span>
+					<span>{{ mainCtrl.dgConfig.stepRadius }}</span>
+					<span>50</span>
+				</div>
+				<md-slider ng-model="mainCtrl.dgConfig.stepRadius" aria-label="stepRadius" min="15" max="50"></md-slider>
+			</li>
+		</ul>
 	</div>
 </div>
