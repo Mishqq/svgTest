@@ -28,36 +28,41 @@
 
 		<ul class="edit-list">
 			<li class="edit-list__item">
+				<div class="edit-list__label">Ширина</div>
 				<div class="edit-list__data">
 					<span>150</span>
 					<span>{{ mainCtrl.dgConfig.width }}</span>
 					<span>500</span>
+					<md-slider ng-model="mainCtrl.dgConfig.width" aria-label="width" min="150" max="500"></md-slider>
 				</div>
-				<md-slider ng-model="mainCtrl.dgConfig.width" aria-label="width" min="150" max="500"></md-slider>
 			</li>
 			<li class="edit-list__item">
+				<div class="edit-list__label">Высота</div>
 				<div class="edit-list__data">
 					<span>150</span>
 					<span>{{ mainCtrl.dgConfig.height }}</span>
 					<span>500</span>
+					<md-slider ng-model="mainCtrl.dgConfig.height" aria-label="height" min="150" max="500"></md-slider>
 				</div>
-				<md-slider ng-model="mainCtrl.dgConfig.height" aria-label="height" min="150" max="500"></md-slider>
+
 			</li>
 			<li class="edit-list__item">
+				<div class="edit-list__label">Радиус диаграммы (наибольший)</div>
 				<div class="edit-list__data">
 					<span>50</span>
 					<span>{{ mainCtrl.dgConfig.radius }}</span>
 					<span>200</span>
+					<md-slider ng-model="mainCtrl.dgConfig.radius" aria-label="radius" min="50" max="200"></md-slider>
 				</div>
-				<md-slider ng-model="mainCtrl.dgConfig.radius" aria-label="radius" min="50" max="200"></md-slider>
 			</li>
 			<li class="edit-list__item">
+				<div class="edit-list__label">Шаг концентрических кругов</div>
 				<div class="edit-list__data">
 					<span>15</span>
 					<span>{{ mainCtrl.dgConfig.stepRadius }}</span>
 					<span>50</span>
+					<md-slider ng-model="mainCtrl.dgConfig.stepRadius" aria-label="stepRadius" min="15" max="50"></md-slider>
 				</div>
-				<md-slider ng-model="mainCtrl.dgConfig.stepRadius" aria-label="stepRadius" min="15" max="50"></md-slider>
 			</li>
 		</ul>
 	</div>

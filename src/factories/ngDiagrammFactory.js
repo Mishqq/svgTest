@@ -12,6 +12,11 @@
 				'height': height,
 				'fill': 'blue'
 			},
+			svgWrapStyles: {
+				'width': width + 'px',
+				'height': height + 'px',
+				'overflow': 'hidden'
+			},
 			radius: 155,
 			animateTime: 500,
 			animateStep: 1,
@@ -23,6 +28,7 @@
 			svgWidth: presets.svgWidth,
 			svgHeight: presets.svgHeight,
 			svgStyles: presets.svgStyles,
+			svgWrapStyles: presets.svgWrapStyles,
 			radius: presets.radius,
 			animateTime: presets.animateTime,
 			animateStep: presets.animateStep,
